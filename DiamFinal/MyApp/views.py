@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegistrationForm
+from .forms import BoleiaForm
+
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 
@@ -59,7 +61,22 @@ def information_view(request):
 
 
 def anunciar_view(request):
-    return render(request, 'MyApp/anunciar.html')
+    if request.method == 'POST':
+        form = BoleiaForm(request.POST)
+        if form.is_valid():
+            partida = form.cleaned_data['partida']
+            chegada = form.cleaned_data['chegada']
+            horario = form.cleaned_data['horario']
+            preco = form.cleaned_data['preco']
+            vagas = form.cleaned_data['vagas']
+            detalhes = form.cleaned_data['detalhes']
+            nova_boleia = Boleia(partida=partida, chegada=chegada, horario=horario, preco=preco, vagas=vagas, detalhes=detalhes)
+            nova_boleia.save()
+            return HttpResponseRedirect(reverse('MyApp:index'))
+    else:
+        form = BoleiaForm()
+
+    return render(request, 'MyApp/anunciar.html', {'form': form})
 
 
 def login_view(request):

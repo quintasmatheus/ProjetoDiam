@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Permission
-from .models import CustomUser
+from .models import CustomUser, Boleia
 
 
 class RegistrationForm(UserCreationForm):
@@ -24,3 +24,17 @@ class RegistrationForm(UserCreationForm):
         user.save()
         customUser.save()
         return user
+
+class BoleiaForm(forms.ModelForm):
+    class Meta:
+        model = Boleia
+        fields = ['partida', 'chegada', 'horario', 'preco', 'vagas', 'detalhes']
+
+    horario = forms.DateTimeField(
+        label='Data e hora da boleia',
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
