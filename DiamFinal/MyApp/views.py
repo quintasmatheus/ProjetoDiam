@@ -11,8 +11,6 @@ from .forms import RegistrationForm
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 
-
-
 # Create your views here.
 
 #@login_required(login_url='/MyApp/login')
@@ -77,6 +75,9 @@ def login_view(request):
     else:
         return render(request, 'MyApp/login.html')
 
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('MyApp:login'))
 
 # Register View
 def register_view(request):
