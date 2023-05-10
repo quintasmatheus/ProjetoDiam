@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .models import Boleia
@@ -71,6 +71,7 @@ def anunciar_view(request):
             vagas = form.cleaned_data['vagas']
             detalhes = form.cleaned_data['detalhes']
             nova_boleia = Boleia(partida=partida, chegada=chegada, horario=horario, preco=preco, vagas=vagas, detalhes=detalhes)
+            nova_boleia.motorista = request.user
             nova_boleia.save()
             return HttpResponseRedirect(reverse('MyApp:index'))
     else:
@@ -78,6 +79,14 @@ def anunciar_view(request):
 
     return render(request, 'MyApp/anunciar.html', {'form': form})
 
+def detalhes(request, boleia_id):
+    boleia = get_object_or_404(Boleia, pk=boleia_id)
+    if request.method == 'POST':
+        boleia.vagas -= 1
+        boleia.users.add(request.user)
+        boleia.save()
+        return HttpResponseRedirect(reverse('MyApp:detalhes', args=(boleia_id,)))
+    return render(request, 'MyApp/detalhe.html', {'boleia': boleia})
 
 def login_view(request):
     if request.method == 'POST':
