@@ -90,7 +90,7 @@
                     <th>Horário</th>
                     <th>Preço</th>
                     <th>Vagas</th>
-                    <th>Detalhes</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -153,6 +153,12 @@
         </script>
     </section>
     <div class="spacer layer2"></div>
+
+    <form id="logout" action="{% url 'MyApp:logout' %}" method="post">
+        {% csrf_token %}
+        <button id="logout_button" type="submit">Logout</button>
+    </form>
+{% endif %}
 
 {% endblock %}
 <script src="{% static 'MyApp/scripts.js' %}" type="application/javascript"></script>

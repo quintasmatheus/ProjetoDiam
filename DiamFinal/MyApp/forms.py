@@ -40,6 +40,7 @@ class BoleiaForm(forms.ModelForm):
             'data-target': '#datetimepicker1'
         })
     )
+
     #
     # def clean_preco(self):
     #     preco = self.cleaned_data['preco']
@@ -52,3 +53,4 @@ class BoleiaForm(forms.ModelForm):
     #     if not vagas.isnumeric():
     #         raise forms.ValidationError("Coloque um valor numérico para as vagas.")
     #     return vagas
+

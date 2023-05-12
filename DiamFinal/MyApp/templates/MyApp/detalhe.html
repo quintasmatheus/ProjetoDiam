@@ -1,7 +1,9 @@
 {% extends "MyApp/index.html" %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-
+    <meta charset="UTF-8">
+    <title>Esta é o anuncio da boleia nº {{ boleia.id}}</title>
 </head>
 <body>
 {% block content %}
@@ -14,7 +16,7 @@
       <h3> {{ boleia.detalhes }}</h3>
 
       <h2> Motorista: </h2>
-      <h3> {{boleia.motorista}} </h3>
+      <h3> {{boleia.motorista.first_name}} {{boleia.motorista.last_name}}</h3>
 
       <h2> Preço: {{ boleia.preco }}</h2>
       <h2> Vagas: {{ boleia.vagas }}</h2>
@@ -24,7 +26,7 @@
             <h2>Passageiros</h2>
             <ul>
             {% for passageiro in boleia.users.all %}
-            <li>{{ passageiro.username }}</li>
+            <li>{{ passageiro.username }} - {{ passageiro.first_name }} {{ passageiro.last_name }}</li>
             {% endfor %}
             </ul>
         {% endif %}
@@ -42,6 +44,13 @@
       {% if error_message %}
         <p><strong>{{ error_message }}</strong></p>
       {% endif %}
+      
+    <br>
+    <a href="{% url 'MyApp:index'%}">
+    <button>Voltar</button>
+    </a>
+    </section>
+
 {% endblock %}
 </body>
 </html>
