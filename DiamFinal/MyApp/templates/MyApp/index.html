@@ -154,12 +154,6 @@
     </section>
     <div class="spacer layer2"></div>
 
-    <form id="logout" action="{% url 'MyApp:logout' %}" method="post">
-        {% csrf_token %}
-        <button id="logout_button" type="submit">Logout</button>
-    </form>
-{% endif %}
-
 {% endblock %}
 <script src="{% static 'MyApp/scripts.js' %}" type="application/javascript"></script>
 </body>

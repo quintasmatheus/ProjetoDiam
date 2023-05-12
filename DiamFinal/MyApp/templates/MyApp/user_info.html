@@ -13,10 +13,12 @@
              <h1>Anúncios realizados:</h1>
              <div id="anuncios_feitos_table">
                  <ul class="anuncios_feitos_ul">
-                    {% if boleias %}
-                    {% for motorista in motorista %}
+                    {% if motoristas %}
+                    {% for motorista in motoristas %}
                         <li>
-                                <span> {{ motorista.partida }} - {{ motorista.chegada}} -> {{ motorista.horario}}</span>
+                            <a href="{% url 'MyApp:detalhes' boleia_id=motorista.id %}">
+                            <span> {{ motorista.partida }} - {{ motorista.chegada}} -> {{ motorista.horario}} </span>
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -34,7 +36,9 @@
                     {% if boleias %}
                     {% for boleia in boleias %}
                         <li>
+                                <a href="{% url 'MyApp:detalhes' boleia_id=boleia.id %}">
                                 <span> {{ boleia.partida }} - {{ boleia.chegada}} -> {{ boleia.horario}}</span>
+                                </a>
                         </li>
                     {% endfor %}
                 </ul>
