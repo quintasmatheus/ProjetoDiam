@@ -9,6 +9,13 @@
 {% block content %}
 
     <section class="detail">
+
+      {% if request.user == boleia.motorista %}
+        <a href="{% url 'MyApp:editar_boleia' boleia.id %}">
+            <button type="submit">Editar Boleia</button>
+        </a>
+      {% endif %}
+
       <h1> Boleia de {{ boleia.partida }} para {{ boleia.chegada }} </h1>
       <h2> Horário: {{ boleia.horario }} </h2>
 

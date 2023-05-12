@@ -8,9 +8,11 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegistrationForm
-from .forms import BoleiaForm
+from .forms import BoleiaForm, EditBoleiaForm
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -133,3 +135,16 @@ def cancelar_vaga(request, boleia_id, user_id):
     boleia.users.remove(user)
     boleia.vagas += 1
     return render(request, 'MyApp/detalhe.html', {'boleia': boleia})
+
+def editar_boleia(request, boleia_id):
+    boleia = get_object_or_404(Boleia, id=boleia_id, motorista=request.user)
+    if request.method == 'POST':
+
+        form = EditBoleiaForm(instance=boleia)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Boleia atualizada com sucesso.')
+            render(request, 'MyApp/detalhe.html', {'boleia': boleia})
+    else:
+        form = EditBoleiaForm(instance=boleia)
+    return render(request, 'MyApp/anunciar.html', {'form': form})
