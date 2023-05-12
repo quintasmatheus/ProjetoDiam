@@ -27,6 +27,24 @@ class RegistrationForm(UserCreationForm):
         customUser.save()
         return user
 
+class EditBoleiaForm(forms.ModelForm):
+    class Meta:
+        model = Boleia
+        fields = ['partida', 'chegada', 'horario', 'preco', 'vagas', 'detalhes']
+
+    horario = forms.DateTimeField(
+        label='Data e hora da boleia (d/m/Y H:M)',
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].required = False
+
 class BoleiaForm(forms.ModelForm):
     class Meta:
         model = Boleia
@@ -41,6 +59,13 @@ class BoleiaForm(forms.ModelForm):
         })
     )
 
+    def clean_vagas(self):
+        vagas = self.cleaned_data.get('vagas')
+        users_count = self.instance.users.count()
+        if vagas < users_count:
+            raise forms.ValidationError(
+                f"Não é possível reduzir as vagas para menos do que {users_count} utilizadores já confirmados na boleia.")
+        return vagas
     #
     # def clean_preco(self):
     #     preco = self.cleaned_data['preco']
