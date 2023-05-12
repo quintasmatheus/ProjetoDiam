@@ -29,9 +29,12 @@
             <li>{{ passageiro.username }} - {{ passageiro.first_name }} {{ passageiro.last_name }}</li>
             {% endfor %}
             </ul>
+        {% else %}
+            <h3>Ainda não há vagas reservadas.</h3>
         {% endif %}
       {% endif %}
 
+      {% if not request.user == boleia.motorista %}
       {% if boleia.vagas > 0 %}
       <form method="post">
         {% csrf_token %}
@@ -39,6 +42,18 @@
       </form>
       {% else %}
         <p>Não há mais vagas disponíveis nesta boleia.</p>
+      {% endif %}
+      {% endif %}
+
+      {% if boleia.users.all.exists %}
+        {% for passageiro in boleia.users.all %}
+             {% if request.user == passageiro %}
+                <form method="post" action="{% url 'MyApp:cancelar_vaga' boleia_id=boleia.id user_id=user.id %}">
+                {% csrf_token %}
+                    <button type="submit">Cancelar reserva from {{ request.user.username }}</button>
+                </form>
+             {% endif %}
+        {% endfor %}
       {% endif %}
 
       {% if error_message %}

@@ -126,3 +126,10 @@ def user_info_view(request):
     }
 
     return render(request, 'MyApp/user_info.html', context)
+
+def cancelar_vaga(request, boleia_id, user_id):
+    boleia = get_object_or_404(Boleia, pk=boleia_id)
+    user = get_object_or_404(User, pk=user_id)
+    boleia.users.remove(user)
+    boleia.vagas += 1
+    return render(request, 'MyApp/detalhe.html', {'boleia': boleia})

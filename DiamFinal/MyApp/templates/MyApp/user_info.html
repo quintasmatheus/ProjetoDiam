@@ -16,7 +16,7 @@
                     {% if motoristas %}
                     {% for motorista in motoristas %}
                         <li>
-                            <a href="{% url 'MyApp:detalhes' boleia_id=motorista.id %}">
+                            <a href="{% url 'MyApp:detalhes' motorista.id %}">
                             <span> {{ motorista.partida }} - {{ motorista.chegada}} -> {{ motorista.horario}} </span>
                             </a>
                         </li>
@@ -36,7 +36,7 @@
                     {% if boleias %}
                     {% for boleia in boleias %}
                         <li>
-                                <a href="{% url 'MyApp:detalhes' boleia_id=boleia.id %}">
+                                <a href="{% url 'MyApp:detalhes' boleia.id %}">
                                 <span> {{ boleia.partida }} - {{ boleia.chegada}} -> {{ boleia.horario}}</span>
                                 </a>
                         </li>
